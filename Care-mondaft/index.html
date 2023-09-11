@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRUD de Personas</title>
+</head>
+<body>
+    <h1>CRUD de Personas</h1>
+
+    <h2>Lista de Personas</h2>
+    <ul id="personList"></ul>
+
+    <h2>Crear Persona</h2>
+    <form id="createForm">
+        Nombre: <input type="text" id="createName" required><br>
+        Teléfono: <input type="text" id="createTelefono" required><br>
+        <button type="submit">Crear</button>
+    </form>
+
+    <h2>Actualizar Persona</h2>
+    <form id="updateForm">
+        ID de la Persona a Actualizar: <input type="number" id="updateId" required><br>
+        Nuevo Nombre: <input type="text" id="updateName"><br>
+        Nuevo Teléfono: <input type="text" id="updateTelefono"><br>
+        <button type="submit">Actualizar</button>
+    </form>
+
+    <h2>Eliminar Persona</h2>
+    <form id="deleteForm">
+        ID de la Persona a Eliminar: <input type="number" id="deleteId" required><br>
+        <button type="submit">Eliminar</button>
+    </form>
+
+    <script>
+        // JavaScript para realizar solicitudes HTTP y manejar eventos del formulario
+        const personList = document.getElementById('personList');
+        const createForm = document.getElementById('createForm');
+        const createName = document.getElementById('createName');
+        const createTelefono = document.getElementById('createTelefono');
+        const updateForm = document.getElementById('updateForm');
+        const updateId = document.getElementById('updateId');
+        const updateName = document.getElementById('updateName');
+        const updateTelefono = document.getElementById('updateTelefono');
+        const deleteForm = document.getElementById('deleteForm');
+        const deleteId = document.getElementById('deleteId');
+
+        // Función para listar personas
+        function listPersons() {
+            fetch('/api/personas')
+                .then(response => response.json())
+                .then(data => {
+                    personList.innerHTML = '';
+                    data.forEach(person => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `ID: ${person.id}, Nombre: ${person.nombre}, Teléfono: ${person.telefono}`;
+                        personList.appendChild(listItem);
+                    });
+                });
+        }
+
+        // Llamar a la función para listar personas al cargar la página
+        listPersons();
+
+        // Manejar el evento de envío del formulario de creación
+        createForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(createForm);
+            fetch('/api/personas', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                listPersons();
+                createForm.reset();
+            });
+        });
+
+        // Manejar el evento de envío del formulario de actualización
+        updateForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(updateForm);
+            const id = formData.get('updateId');
+            fetch(`/api/personas/${id}`, {
+                method: 'PUT',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                listPersons();
+                updateForm.reset();
+            });
+        });
+
+        // Manejar el evento de envío del formulario de eliminación
+        deleteForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const id = deleteId.value;
+            fetch(`/api/personas/${id}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                listPersons();
+                deleteForm.reset();
+            });
+        });
+    </script>
+</body>
+</html>

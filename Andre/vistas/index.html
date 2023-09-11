@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MOTOS</title>
+</head>
+<body>
+    <h2>REGISTRAR MOTOS</h2>
+    <form action="../controller/appController.php" method="POST">
+        <input type="hidden" name="id" value="">
+
+        <label for="modelo">Modelo:</label>
+        <input type="text" id="modelo" name="modelo" required><br>
+
+        <label for="color">Color:</label>
+        <input type="text" id="color" name="color" required><br>
+
+        
+        
+    </form>
+  
+            <input class="form-check-input" type="checkbox" name="guardar" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Guardar</label>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" name="actualizar" id="flexSwitchCheckChecked">
+            <label class="form-check-label" for="flexSwitchCheckChecked">Actualizar</label>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" name="eliminar" id="flexSwitchCheckChecked">
+            <label class="form-check-label" for="flexSwitchCheckChecked">Eliminar</label>
+          </div>
+         
+        <div class="col-auto">
+            <input type="submit" name="guardar_moto" value="Guardar Moto">
+           
+        </div>
+        <div class="col-auto">
+        <input type="text" name="id" id="id" placeholder="ingresa id">
+        </div>
+      </form>
+      </form>
+</body>
+</html>
+
+
